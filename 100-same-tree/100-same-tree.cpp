@@ -30,10 +30,18 @@ public:
             if(nodeP -> val != nodeQ -> val) return false;
             
             //both should be null together, otherwise put them in queue;
-            if(nodeP -> left != NULL && nodeQ -> left != NULL) {
+//             if(nodeP -> left != NULL && nodeQ -> left != NULL) {
+//                 qP.push(nodeP -> left);
+//                 qQ.push(nodeQ -> left);
+//             } else if(nodeP -> left != NULL || nodeQ -> left != NULL) return false;
+            
+            if(nodeP -> left != NULL && nodeQ -> left == NULL || nodeP -> left == NULL && nodeQ -> left != NULL) return false;
+            else if(nodeP -> left != NULL && nodeQ -> left != NULL) {
                 qP.push(nodeP -> left);
                 qQ.push(nodeQ -> left);
-            } else if(nodeP -> left != NULL || nodeQ -> left != NULL) return false;
+            }
+            
+            
             
             //both should be null together, otherwise put them in queue;
             if(nodeP -> right != NULL && nodeQ -> right != NULL) {
