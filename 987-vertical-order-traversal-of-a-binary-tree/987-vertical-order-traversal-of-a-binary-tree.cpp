@@ -11,34 +11,44 @@
  */
 class Solution {
 public:
-    map<int, map<int, multiset<int>>> rc;
-
-    void fillrc(TreeNode* node, int c, int r) {
-        if(node == NULL) return;
-        
-        rc[c][r].insert(node -> val);
-        
-        
-        fillrc(node -> left, c -1, r + 1);
-        fillrc(node -> right, c + 1, r + 1);
-        
-    }
+    
     
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         vector<vector<int>> ans;
         if(root == NULL) return ans;
+    
+        map<int, map<int, multiset<int>>> rc;
         
-        int r = 0, c = 0;
-        fillrc(root, c, r);
+        queue<pair<TreeNode*, pair<int, int>>> q;
         
-        for(auto c: rc) {
-            vector<int> col;
-            for(auto r: c.second) {
-                col.insert(col.end(), r.second.begin(), r.second.end());
+        q.push({root, {0, 0}});
+        
+        while(!q.empty()) {
+            auto nodeData = q.front();
+            q.pop();
+            int x = nodeData.second.first; 
+            int y = nodeData.second.second;
+            
+            auto node = nodeData.first;
+            rc[x][y].insert(node -> val);
+            if(node -> left != NULL) 
+                q.push({node -> left, {x -1, y +1}});
+            
+            if(node -> right != NULL) 
+                q.push({node -> right, {x +1, y +1}});
+            
+            
             }
-            ans.push_back(col);
-        }
-        
+                       
+            for(auto u: rc) {
+                vector<int> tmp;
+                for(auto p: u.second) {
+                    tmp.insert(tmp.end(), p.second.begin(), p.second.end());
+                }
+                ans.push_back(tmp);
+            }         
+            
+      
         return ans;
         
     }
