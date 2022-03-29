@@ -10,25 +10,20 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*> pathP, pathQ;
-        tracePath(root, p -> val, pathP);
-        tracePath(root, q -> val, pathQ);
+        if(root == NULL || root == p || root == q) return root;
         
-        int i;
-        for(i=0; i<min(pathP.size(), pathQ.size()) && pathP[i] -> val == pathQ[i] -> val; i++);
+        TreeNode* left = lowestCommonAncestor(root -> left, p, q);
+        TreeNode* right = lowestCommonAncestor(root -> right, p, q);
         
-        return pathP[i-1];
+        //four probable cases:  
+        //1> left == NULL && right == NULL return NULL
+        //2> left != NULL && right == NULL return left
+        //3> left == NULL && right != NULL return right
+        //4> left != NULL && right != NULL return root
+        
+        if(left == NULL) return right;
+        else if(right == NULL) return left;
+        else return root;
     }
-private: 
-    bool tracePath(TreeNode* node, int target, vector<TreeNode*>& path) {
-        if(node == NULL) return false;
-        path.push_back(node);
-        if(node -> val == target) return true;
-        
-        if(tracePath(node -> left, target, path) || tracePath(node -> right, target, path)) 
-            return true;
-        
-        path.pop_back();
-        return false;
-    }
+    
 };
