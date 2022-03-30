@@ -10,44 +10,44 @@
 class Solution {
 public:
     unordered_map<TreeNode*, TreeNode*> cp;
-    void inorder(TreeNode* root) {
-        //if(root == NULL) return;
-        
-        if(root -> left != NULL) {
-            cp[root -> left] = root;
-            inorder(root -> left);
-        }
-        
-        if(root -> right != NULL) {
-            cp[root -> right] = root;
-            inorder(root ->  right);
-        }
-    }
-    
 //     void inorder(TreeNode* root) {
-//         queue<TreeNode*> q;
-//         q.push(root);
+//         //if(root == NULL) return;
         
-//             while(!q.empty()) {
-//                 int size = q.size();
-                
-//                 while(size--) {
-//                     TreeNode* node = q.front();
-//                     q.pop();
-                    
-//                     if(node -> left != NULL) {
-//                         cp[node -> left] = node;
-//                         q.push(node -> left);
-//                     }
-                    
-//                     if(node -> right != NULL) {
-//                         cp[node -> right] = node;
-//                         q.push(node -> right);
-//                     }
-//                 }
-//             }
+//         if(root -> left != NULL) {
+//             cp[root -> left] = root;
+//             inorder(root -> left);
+//         }
         
+//         if(root -> right != NULL) {
+//             cp[root -> right] = root;
+//             inorder(root ->  right);
+//         }
 //     }
+    
+    void inorder(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        
+            while(!q.empty()) {
+                int size = q.size();
+                
+                while(size--) {
+                    TreeNode* node = q.front();
+                    q.pop();
+                    
+                    if(node -> left != NULL) {
+                        cp[node -> left] = node;
+                        q.push(node -> left);
+                    }
+                    
+                    if(node -> right != NULL) {
+                        cp[node -> right] = node;
+                        q.push(node -> right);
+                    }
+                }
+            }
+        
+    }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         unordered_map<TreeNode*, bool> visited;
         inorder(root);
