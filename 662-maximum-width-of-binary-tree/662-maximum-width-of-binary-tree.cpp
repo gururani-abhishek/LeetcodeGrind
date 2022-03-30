@@ -12,31 +12,28 @@
 class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        
-        //I'm applying a hack here, subtracting each serial with the max serial of that level
-        
         if(root == NULL) return 0;
-        queue<pair<TreeNode*, int>> q;
+        queue<pair<TreeNode*, unsigned long long >> q;
         
         q.push({root, 0});
-        
-        int ans = 0;
+        unsigned long long ans = 0;
         
         while(!q.empty()) {
             int size = q.size();
-            int first = q.front().second, last = q.back().second;
-            ans = max(ans, last - first +1);
+            ans = max(ans, q.back().second - q.front().second + 1);
             
-            for(int i=0; i<size; i++) {
+            while(size--) {
+                unsigned long long currSerial = q.front().second - 1;
                 TreeNode* node = q.front().first;
-                int index = q.front().second - last;
-                q.pop();
                 
-                if(node -> left != NULL) q.push({node -> left, 2*index + 1});
-                if(node -> right != NULL) q.push({node -> right, 2*index + 2});
+                if(node -> left != NULL) q.push({node -> left, 2*currSerial +1});
+                if(node -> right != NULL) q.push({node -> right, 2*currSerial +2});
+                
+                q.pop();
             }
         }
         
         return ans;
+        
     }
 };
