@@ -10,7 +10,7 @@ public:
         
         while(l < h) {
             int mid = l + (h - l)/2;
-            if(countSubarrays(nums, mid) < m) {
+            if(countSubarrays(nums, mid) <= m) {
                 h = mid;
             } else {
                 l = mid + 1;
@@ -23,7 +23,8 @@ public:
 
 private: 
     int countSubarrays(vector<int> nums, int maxS) {
-        int total = 0, subarrays = 0;
+        int total = 0, subarrays = 1;
+        
         
         for(int i=0; i<nums.size(); i++) {
             if(total + nums[i] <= maxS) total += nums[i];
