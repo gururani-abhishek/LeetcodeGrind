@@ -20,14 +20,14 @@ public:
     }
     
 private: 
-    void inorder(TreeNode* node) {
-        if(node -> left != NULL) inorder(node -> left);
+    void inorder(TreeNode* root) {
+        if(root == NULL) return;
         
+        inorder(root -> left);
         count--;
-        //cout << count << " ";
         if(count == 0) {
-                number = node -> val;
-            }
-        if(node -> right != NULL) inorder(node -> right);
+            number = root -> val;
+        }
+        inorder(root -> right);
     }
 };
