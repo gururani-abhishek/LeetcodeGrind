@@ -9,28 +9,47 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    vector<int> inOrder;
-    bool findTarget(TreeNode* root, int k) {
-        inorder(root);
-        
-        int l = 0, r = inOrder.size() -1;
-        while(l < r) {
-            if(inOrder[l] + inOrder[r] > k) r--;
-            else if(inOrder[l] + inOrder[r] < k) l++;
-            else return true;
-        }
-        
-        return false;
+class BSTIterator {
+public: 
+    stack<TreeNode*> stk;
+    bool who; //true for left, and false for right;
+    
+    BSTIterator(TreeNode* root, bool which) {
+        who = which;
+        pushAll(root);
     }
     
-private: 
-    void inorder(TreeNode* root) {
-        if(root == NULL) return;
+    int next() {
+        TreeNode* node = stk.top();
+        stk.pop();
+        who ? pushAll(node -> right) : pushAll(node -> left);
+        return node -> val;
+    }
+    
+private:
+    void pushAll(TreeNode* node) {
+        while(node != NULL) {
+            stk.push(node);
+            who ? node = node -> left : node = node -> right;
+        }
+    }
+    
+};
+
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        if(root == NULL) return false;
+        BSTIterator l(root, true);
+        BSTIterator r(root, false);
         
-        inorder(root -> left);
-        inOrder.push_back(root -> val);
-        inorder(root ->  right);
+        int i = l.next(), j = r.next();
+        
+        while(i < j) {
+            if(i + j == k)  return true;
+            else if( i + j < k) i = l.next();
+            else j = r.next();
+        }
+    return false;
     }
 };
