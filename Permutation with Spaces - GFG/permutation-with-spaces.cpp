@@ -15,17 +15,16 @@ public:
         }
         
         string op1 = op;
-        string op2 = op;
         
         //op1 with spaceChar, op2 without spaceChar
         op1.push_back(' ');
         op1.push_back(ip[0]);
-        op2.push_back(ip[0]);
+        op.push_back(ip[0]);
         
         ip.erase(ip.begin() + 0);
         
         createPermutations(op1, ip);
-        createPermutations(op2, ip);
+        createPermutations(op, ip);
         
     }
     
