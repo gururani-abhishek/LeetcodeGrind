@@ -14,29 +14,22 @@ private:
             ans.push_back(op);
             return;
         }
+    //isalpha(): returns 0 if not an alphabet, else non zero
+    //tolower(): to lowercase
+    //toupper(): to uppercase
+
+        string op1 = op;
+        char x = ip[0];
         
-        bool lc = 0, uc = 0;
-        lc = (ip[0] >= 'a' && ip[0] <= 'z');
-        uc = (ip[0] >= 'A' && ip[0] <= 'Z');
+        op.push_back(ip[0]);
+        ip.erase(ip.begin() + 0);
+        create(op, ip);
         
-        if(lc) {
-            string op1 = op;
-            op1.push_back(ip[0] - 32);
-            op.push_back(ip[0]);
-            ip.erase(ip.begin() + 0);
-            create(op, ip);
+        if(isalpha(x)) {
+            x ^= (1<<5); //toggles, lower to upper and upper to lower.
+            op1.push_back(x);
             create(op1, ip);
-        } else if(uc) {
-            string op1 = op;
-            op1.push_back(ip[0] + 32);
-            op.push_back(ip[0]);
-            ip.erase(ip.begin() + 0);
-            create(op, ip);
-            create(op1, ip);
-        } else {
-            op.push_back(ip[0]);
-            ip.erase(ip.begin() + 0);
-            create(op, ip);
         }
-}
+        
+    }
 };
