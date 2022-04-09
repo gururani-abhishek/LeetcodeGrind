@@ -6,34 +6,35 @@ using namespace std;
  // } Driver Code Ends
 //User function template for C++
 class Solution{
-public:	
+public:
     vector<string> ans;
-	vector<string> NBitBinary(int N) {
-	   string op = "";
-	   int O = N, Z = N;
-	   create(op, O, Z, N);
-	   
-	   return ans;
+	vector<string> NBitBinary(int N)
+	{
+	    string op = "";
+	    int O = 0, Z = 0;
+	    create(op, O, Z, N);
+	    
+	    return ans;
 	}
 private: 
     void create(string op, int O, int Z, int N) {
-        if(op.length() ==  N) {
+        if(N == 0) {
             ans.push_back(op);
             return;
         }
         
-        if(O > 0) {
-            string op1 = op;
-            op1.push_back('1');
-            create(op1, O-1, Z, N);
-        } 
+        string op1 = op;
+        op1.push_back('1');
+        create(op1, O + 1, Z, N-1);
         
-        if(O < Z) {
-            string op2 = op;
-            op2.push_back('0');
-            create(op2, O, Z-1, N);
+        if(O > Z) {
+            op.push_back('0');
+            create(op, O, Z+1, N-1);
         }
+        
+        
     }
+    
 };
 
 // { Driver Code Starts.
