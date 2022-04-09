@@ -2,37 +2,31 @@ class Solution {
 public:
     vector<string> ans;
     vector<string> generateParenthesis(int n) {
+        int open = n, close = n;
         string op = "";
-        create(op, 2*n);
+        create(op, open, close);
+        
         return ans;
     }
     
 private: 
-    void create(string op, int count) {
-    
-        if(count == 0) {
-            if(check(op)) ans.push_back(op);
+    void create(string op, int open, int close) {
+        if(open == 0 && close == 0) {
+            ans.push_back(op);
             return;
         }
         
-        string op1 = op;
-        op1.push_back('(');
-        op.push_back(')');
-        count--;
-        create(op, count);
-        create(op1, count);        
-    
-    }
-    
-    bool check(string s) {
-        int count = 0;
-        for(int i =0; i<s.length(); i++) {
-            count += (s[i] == '(');
-            count -= (s[i] == ')');
-            
-            if(count < 0) return false;
+        if(open > 0) {
+            string op1 = op;
+            op1.push_back('(');
+            create(op1, open-1, close);
+        } 
+        
+        if(open < close) {
+            string op2 = op;
+            op2.push_back(')');
+            create(op2, open, close -1);
         }
-        return count == 0? true : false;
         
     }
 };
