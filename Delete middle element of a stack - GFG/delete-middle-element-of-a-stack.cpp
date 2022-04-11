@@ -13,27 +13,15 @@ class Solution
     //Function to delete middle element of a stack.
     void deleteMid(stack<int>&s, int sizeOfStack)
     {
-        int mid = (sizeOfStack + 2 -1)/2;
-        mid = sizeOfStack - mid + 1;
-        dM(s, mid);
-        
-    }
-    
-    private: 
-    void dM(stack<int>& stk, int count) {
-        if(count == 1) {
-            stk.pop();
+        if(s.size() == (sizeOfStack +1)/2) {
+            s.pop();
             return;
-        }   
+        }
         
-        int endRemoved = stk.top(); 
-        stk.pop();
-        dM(stk, count - 1);
-        
-        stk.push(endRemoved);
-        
+        int temp = s.top(); s.pop();
+        deleteMid(s, sizeOfStack);
+        s.push(temp);
     }
-    
 };
 
 // { Driver Code Starts.
