@@ -8,24 +8,22 @@ using namespace std;
 class Solution {
   public:
     int safePos(int n, int k) {
-        int index = 0;
         vector<int> pos;
-        
-        for(int i=0; i<n; i++) pos.push_back(i+1);
-        
-        return kill(index, n, k, pos);
+        for(int i=1; i<=n; i++) pos.push_back(i);
+        int start = 0;
+        return kill(start, k, pos);
     }
-   
-   private: 
-    
-    int kill(int index, int n, int k, vector<int>& pos) {
-        if(n == 1) {
+  private: 
+  
+    int kill(int start, int k, vector<int>& pos) {
+        if(pos.size() == 1) {
             return pos[0];
-        }
+        }      
         
-        index = (index + (k-1)) % n;
-        pos.erase(pos.begin()  + index);
-        return kill(index, n-1, k, pos);
+        start = (start + (k-1)) % pos.size();
+        //cout << start << " " << pos[start] << endl;
+        pos.erase(pos.begin() + start);
+        return kill(start, k, pos);
     }
 };
 
