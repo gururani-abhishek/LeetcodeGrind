@@ -11,30 +11,29 @@ public:
 	vector<string> NBitBinary(int N)
 	{
 	    string op = "";
-	    int O = 0, Z = 0;
-	    create(op, O, Z, N);
-	    
+	    create(op, N, N, N);
 	    return ans;
 	}
+	
 private: 
-    void create(string op, int O, int Z, int N) {
-        if(N == 0) {
+    void create(string op, int one, int zero, int n) {
+        if(n == 0) {
             ans.push_back(op);
             return;
         }
         
-        string op1 = op;
-        op1.push_back('1');
-        create(op1, O + 1, Z, N-1);
-        
-        if(O > Z) {
-            op.push_back('0');
-            create(op, O, Z+1, N-1);
+        if(one > 0) {
+            string op1 = op;
+            op1.push_back('1');
+            create(op1, one -1, zero, n -1);
         }
         
-        
+        if(one < zero) {
+            string op2 = op;
+            op2.push_back('0');
+            create(op2, one, zero -1, n -1);
+        }
     }
-    
 };
 
 // { Driver Code Starts.
