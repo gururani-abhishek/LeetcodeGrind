@@ -16,6 +16,7 @@ public:
         int srcNode = 0; //because I know parent node is 0th node
         dfs(srcNode, adjList, size);
         
+        vector<long long> score(n, 0);
         long long cnt =0, mx = 0;
         for(int i=0; i<n; i++) {
             long long pro = 1;
@@ -24,12 +25,15 @@ public:
             for(auto u: adjList[i]) 
                 pro *= size[u];
             
-            if(pro > mx) {
-                cnt = 1;
-                mx = pro;
-            } else if(pro == mx) cnt++;
+            mx = max(pro, mx);
+            score[i] = pro;
+            // if(pro > mx) {
+            //     cnt = 1;
+            //     mx = pro;
+            // } else if(pro == mx) cnt++;
         }
         
+        for(auto u: score) cnt += (u == mx);
         return cnt;
         
     }
