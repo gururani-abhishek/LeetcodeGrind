@@ -21,8 +21,12 @@ private:
     void preOrder(TreeNode* root, int low, int high) {
         if(root == NULL) return;
         
-        if(root -> val >= low && root -> val <= high) ans += root -> val;
-        preOrder(root -> left, low, high);
-        preOrder(root -> right, low, high);
+        if(root -> val >= low && root -> val <= high) {
+            ans += root -> val;
+            preOrder(root -> left, low, high);
+            preOrder(root -> right, low, high);   
+        } else if(root -> val < low) preOrder(root -> right, low, high);
+        else preOrder(root -> left, low, high);
+        
     }
 };
