@@ -1,49 +1,43 @@
 class Solution {
 public:
     int countHighestScoreNodes(vector<int>& parents) {
-        //creating an adjacency list
-        int n = parents.size();
-        vector<vector<int>> adjList(n);
-        vector<int> size(n, 0); //holds the size of subtrees for each node + 1(for that node)
-        
-        for(int i=1; i<n; i++) 
-            adjList[parents[i]].push_back(i); //parent to child relationship    
-        
-        //adjList[0] -> 2, 4
-        //adjList[2] -> 1, 3
-        
-        //calculating size of each subtree using dfs
-        int srcNode = 0; //because I know parent node is 0th node
-        dfs(srcNode, adjList, size);
-        
-        vector<long long> score(n, 0);
-        long long cnt =0, mx = 0;
-        for(int i=0; i<n; i++) {
-            long long pro = 1;
-            pro = max(pro, (long long)n - size[i]);
-            
-            for(auto u: adjList[i]) 
-                pro *= size[u];
-            
-            mx = max(pro, mx);
-            score[i] = pro;
-            // if(pro > mx) {
-            //     cnt = 1;
-            //     mx = pro;
-            // } else if(pro == mx) cnt++;
+        vector<vector<int>> adjList(parents.size());
+        for(int i=1; i<parents.size(); i++) {
+            adjList[parents[i]].push_back(i);
         }
         
-        for(auto u: score) cnt += (u == mx);
-        return cnt;
+        vector<int> size(parents.size(), 0);
+        dfs(0, adjList, size);
         
+        //now size holds my count of subtrees for every node plus 1
+        vector<long long> score(parents.size(), 0);
+        long long mx = 0;
+        for(int i=0; i<parents.size(); i++) {
+            long long prod = 1;
+            prod = max(prod, (long long)parents.size() - size[i]);
+            
+            for(auto child: adjList[i]) {
+                prod *= size[child];
+            }
+            
+            mx = max(mx, prod);
+            score[i] = prod;
+        }
+        
+        long long ans  = 0;
+        for(auto u: score) 
+            ans += (u == mx);
+        
+        return ans;
     }
+    
 private: 
     int dfs(int srcNode, vector<vector<int>>& adjList, vector<int>& size) {
         int ans = 1;
-        for(auto child: adjList[srcNode]) 
+        for(auto child: adjList[srcNode]) {
             ans += dfs(child, adjList, size);
-        
+        }
+    
         return size[srcNode] = ans;
     }
-    
 };
