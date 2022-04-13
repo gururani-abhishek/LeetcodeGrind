@@ -11,28 +11,33 @@
  */
 class Solution {
 public:
-    map<int, int> freq;
-    vector<int> findMode(TreeNode* root) {
-        dfs(root);
-        int mx = -1e9;
-        for(auto u: freq) 
-            mx = max(mx, u.second);
-        
-        vector<int> ans;
-        
-        for(auto u: freq) 
-            if(u.second == mx) ans.push_back(u.first);
+    vector<int> ans;
+    int predecessor = INT_MIN, curFreq = 0, maxFreq = 0;
     
+    vector<int> findMode(TreeNode* root) {
+        //inorder traversal traverse nodes in their ascending order
+        inOrder(root);
+        
         return ans;
     }
-    
-    
 private: 
-    void dfs(TreeNode* node) {
-        if(node == NULL) return;
+    void inOrder(TreeNode* root) {
+        if(root == NULL) return;
         
-        freq[node -> val]++;
-        dfs(node -> left);
-        dfs(node -> right);
+        inOrder(root -> left);
+        
+        if(root -> val == predecessor) curFreq++;
+        else curFreq = 1;
+        
+        if(curFreq > maxFreq) {
+            ans.clear();
+            ans.push_back(root -> val);
+            maxFreq = curFreq;
+        } else if(curFreq == maxFreq) ans.push_back(root -> val);
+
+        predecessor = root -> val;
+        
+        inOrder(root -> right);
+        
     }
 };
