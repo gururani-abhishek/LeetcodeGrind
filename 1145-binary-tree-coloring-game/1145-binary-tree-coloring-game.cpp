@@ -11,11 +11,9 @@
  */
 class Solution {
 public:
-    TreeNode* redNode;
     int arr[3];
     bool btreeGameWinningMove(TreeNode* root, int n, int x) {
-        findRedNode(root, x);
-        //cout  << cln << " " << crn;
+        findAndCount(root, x);
         arr[2] = n - arr[0] - arr[1] - 1;
         sort(arr, arr+3);
         
@@ -23,21 +21,17 @@ public:
         return false;
     }
 private: 
-    void findRedNode(TreeNode* root, int x) {
-        if(root  == NULL) return;
+    int findAndCount(TreeNode* root, int x) {
+        if(root == NULL) return 0;
+        int l = findAndCount(root -> left, x);
+        int r = findAndCount(root -> right, x);
         
-        if(root -> val == x) {
-            arr[0] = countNodes(root -> left);
-            arr[1] = countNodes(root -> right);
-            return;
-        }
+            if(root -> val == x) {
+                arr[0] = l;
+                arr[1] = r;
+            }
         
-        findRedNode(root -> left, x);
-        findRedNode(root -> right, x);
+        return l+r+1;
     }
     
-    int countNodes(TreeNode* node) {
-        if(node == NULL) return 0;
-        return (1+ countNodes(node -> left) + countNodes(node -> right));
-    }
 };
