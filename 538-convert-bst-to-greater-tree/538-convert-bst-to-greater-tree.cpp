@@ -13,16 +13,21 @@ class Solution {
 public:
     int sum = 0;
     TreeNode* convertBST(TreeNode* root) {
-        dfs(root);
+        // dfs(root);
+        if(root == NULL) return NULL;
+        convertBST(root -> right);
+        sum += root -> val;
+        root -> val = sum;
+        convertBST(root -> left);
         return root;
     }
     
-private: 
-    void dfs(TreeNode* root) {
-        if(root == NULL) return;
-        dfs(root -> right);
-        sum += root -> val;
-        root -> val = sum;
-        dfs(root -> left);
-    }
+// private: 
+//     void dfs(TreeNode* root) {
+//         if(root == NULL) return;
+//         dfs(root -> right);
+//         sum += root -> val;
+//         root -> val = sum;
+//         dfs(root -> left);
+//     }
 };
