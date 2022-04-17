@@ -11,25 +11,35 @@
  */
 class Solution {
 public:
-    TreeNode *result, *prev;
+    vector<int> inc;
     TreeNode* increasingBST(TreeNode* root) {
         inOrder(root);
+        TreeNode *result = NULL, *prev;
+        for(auto u: inc) {
+            TreeNode* cur = new TreeNode(0);
+            cur -> val = u;
+            cur -> left = NULL;
+            
+            if(result == NULL) {
+                result = cur;
+            } else {
+                prev -> right = cur;
+            }
+            
+            prev = cur;
+        }
+        
+        
         return result;
     }
-private: 
+    
+private:
     void inOrder(TreeNode* root) {
         if(root == NULL) return;
         inOrder(root -> left);
-        
-        if(result == NULL) {
-            result = root;
-        } else {
-            prev -> right = root;
-        }
-        
-        prev = root;
-        root -> left = NULL;
-        
+        inc.push_back(root -> val);
         inOrder(root -> right);
     }
+    
+    
 };
