@@ -17,7 +17,7 @@ public:
                 //if k or more elements are filled, check whether new element pair
                 //has a sum less than the top most element pair.
                 //if yes, pop top element pair and add this instead.
-                else if(sum < maxHeap.top().second.first + maxHeap.top().second.second) {
+                else if(sum < maxHeap.top().first) {
                     maxHeap.pop(); 
                     maxHeap.push({sum, {nums1[i],  nums2[j]}});
                 } else break;
@@ -26,15 +26,15 @@ public:
         }
         
         vector<vector<int>> ans(maxHeap.size());
-        int i = 0;
+        int i = maxHeap.size() -1;
         while(!maxHeap.empty()) {
             ans[i].push_back(maxHeap.top().second.first);
             ans[i].push_back(maxHeap.top().second.second);
             maxHeap.pop();
-            i++;
+            i--;
         }
         
-        reverse(ans.begin(), ans.end());
+        //reverse(ans.begin(), ans.end());
         return ans;
         
     }
