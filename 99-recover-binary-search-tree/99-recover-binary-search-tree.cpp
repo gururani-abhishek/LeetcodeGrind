@@ -11,25 +11,31 @@
  */
 class Solution {
 public:
+    TreeNode *firstNode, *secondNode, *prev;
     void recoverTree(TreeNode* root) {
-        vector<int> bst;
-        inOrder(root, bst, 1);
         
-        //for(auto u: bst) cout << u << " ";
-        sort(bst.rbegin(), bst.rend());
+        inOrder(root);
         
-        inOrder(root, bst, 2);
+        int temp = firstNode -> val;
+        firstNode -> val = secondNode -> val;
+        secondNode -> val = temp;
+        
     }
     
-private: 
-    void inOrder(TreeNode* root, vector<int>& bst, int type) {
+private:
+    void inOrder(TreeNode* root) {
         if(root == NULL) return;
-        inOrder(root -> left, bst, type);
-        if(type == 1) bst.push_back(root -> val);
-        if(type == 2) {
-            root -> val = bst[bst.size() -1];
-            bst.pop_back();
+        
+        inOrder(root -> left);
+        if(firstNode == NULL && (prev != NULL && prev -> val >= root -> val)) {
+            firstNode = prev;
         }
-        inOrder(root -> right, bst, type);
+        
+        if(firstNode != NULL && prev -> val >= root -> val) {
+            secondNode = root;
+        }
+
+        prev = root;
+        inOrder(root -> right);
     }
 };
