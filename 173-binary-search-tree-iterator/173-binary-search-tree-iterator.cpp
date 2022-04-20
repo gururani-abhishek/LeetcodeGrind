@@ -11,31 +11,28 @@
  */
 class BSTIterator {
 public:
-    vector<int> ele;
-    int ind = 0;
+    stack<TreeNode*> stk;
     BSTIterator(TreeNode* root) {
-        inOrder(root);
-        //for(auto u: ele) cout << u << " ";
+        pushAll(root);
     }
     
     int next() {
-        return ele[ind++];
+        TreeNode* cur = stk.top();
+        stk.pop();
+        pushAll(cur -> right);
+        return cur -> val;
     }
     
     bool hasNext() {
-        if(ind < ele.size()) return true;
-        
-        return false;
+        return !stk.empty();
     }
-    
+
 private: 
-    void inOrder(TreeNode* root) {
+    void pushAll(TreeNode* root) {
         if(root == NULL) return;
-        inOrder(root -> left);
         
-        ele.push_back(root -> val);
-        
-        inOrder(root -> right);
+        stk.push(root);
+        pushAll(root -> left);
     }
 };
 
