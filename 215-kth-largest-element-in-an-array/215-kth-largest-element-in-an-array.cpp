@@ -1,26 +1,26 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        
-        int l = *min_element(nums.begin(), nums.end());
-        int h = *max_element(nums.begin(), nums.end());
+        int l = INT_MAX, h = INT_MIN;
+        for(auto u: nums) {
+            l = min(l, u);
+            h = max(h, u);
+        }
         
         while(l < h) {
             int mid = l + (h-l)/2;
             
-            if(countGreaterThanOrEqual(nums, mid) < nums.size()-k+1) l = mid + 1;
-            else h = mid;
+            if(countGreaterAndEqual(nums, mid) < k) h = mid;
+            else l = mid + 1;
         }
         
         return l;
     }
-
-private: 
-    int countGreaterThanOrEqual(vector<int>& nums, int key) {
-        int count = 0;
-        for(auto u: nums) 
-            count += (u <= key);
     
-        return count;
+private:
+    int countGreaterAndEqual(vector<int>& nums, int key) {
+        int c = 0;
+        for(auto u: nums) c += (u > key);
+        return c;
     }
 };
