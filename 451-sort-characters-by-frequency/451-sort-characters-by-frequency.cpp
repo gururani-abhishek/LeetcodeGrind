@@ -1,18 +1,25 @@
 class Solution {
 public:
+    #define pi pair<int, char>
     string frequencySort(string s) {
         unordered_map<char, int> freq;
-        for(auto u: s) freq[u]++;
         
-        vector<pair<int, char>> charInt;
+        for(int i=0; i<s.length(); i++) 
+            freq[s[i]]++;
+        
+        priority_queue<pi> maxHeap;
+        
         for(auto u: freq) 
-            charInt.push_back({u.second, u.first});
-        
-        sort(charInt.begin(), charInt.end(), greater<pair<int, char>>());
+            maxHeap.push({u.second, u.first});
         
         string ans = "";
-        for(auto u: charInt) {
-            ans += string(u.first, u.second);
+        while(!maxHeap.empty()) {
+            int size = maxHeap.top().first;
+            while(size--) {
+                ans += maxHeap.top().second;
+            }
+            
+            maxHeap.pop();
         }
         
         return ans;
