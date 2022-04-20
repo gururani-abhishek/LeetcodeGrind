@@ -6,21 +6,24 @@ public:
             l = min(l, u);
             h = max(h, u);
         }
-        
+    
         while(l < h) {
-            int mid = l + (h-l)/2;
+            int mid = l + (h -l)/2;
             
-            if(countGreaterAndEqual(nums, mid) < k) h = mid;
+            int c = 0;
+            for(auto u: nums) c += (u <= mid);
+        
+            if(c >= nums.size() - k + 1) h = mid;
             else l = mid + 1;
         }
         
         return l;
     }
-    
-private:
-    int countGreaterAndEqual(vector<int>& nums, int key) {
-        int c = 0;
-        for(auto u: nums) c += (u > key);
-        return c;
-    }
 };
+
+
+//kth largest element is basically
+//size - k + 1 smallest element
+
+//1, 2, 3, 4, 5
+//2nd largest is (size - 2 + 1)
