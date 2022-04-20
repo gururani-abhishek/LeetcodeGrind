@@ -13,12 +13,11 @@ public:
         
         queue<pair<int, pair<int, char>>> q;
         
-        int i = 0;
+        int i =0;
         string ans = "";
         while(!maxHeap.empty() || !q.empty()) {
             i++;
-            
-                
+            if(maxHeap.empty() && !q.empty()) return "";
             if(!maxHeap.empty()) {
                 ans += maxHeap.top().second;
                 int cnt = maxHeap.top().first - 1;
@@ -33,9 +32,9 @@ public:
                 maxHeap.push({q.front().second.first,  q.front().second.second});
                 q.pop();
             }
+            cout << q.size() << " ";
         }
         
-        if(i != s.size()) return "";
         return ans;
     }
 };
