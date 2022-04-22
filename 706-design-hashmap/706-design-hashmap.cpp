@@ -50,7 +50,7 @@ public:
     
 private:
     int hash(int key) {
-        return (int)((long)key * mult % size);
+        return (int)((long)key % size);
     }
 };
 
