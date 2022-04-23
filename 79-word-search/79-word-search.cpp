@@ -1,5 +1,8 @@
 class Solution {
 public:
+    // time complexity O(n*m*3^lengthOfWord)
+    // space comeplexity O(n*m*4^lenghtOfWord)
+    
     bool exist(vector<vector<char>>& board, string word) {
         int n = board.size(), m = board[0].size();
         for(int i=0; i<n; i++) {
