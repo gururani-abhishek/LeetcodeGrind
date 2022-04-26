@@ -13,8 +13,8 @@ public:
         bool flag = 0;
         for(int i=0; i<n; i++) {
             for(int j = i+1; j<n; j++) {
-                int x1 = points[i][0], y1 = points[i][1];
                 int x2 = points[j][0], y2 = points[j][1];
+                int x1 = points[i][0], y1 = points[i][1];
                 
                 //they'll form the diagonal of our rectangle
                 if(x1 != x2 && y1 != y2) {
