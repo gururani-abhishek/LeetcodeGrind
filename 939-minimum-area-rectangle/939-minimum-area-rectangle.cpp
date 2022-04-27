@@ -20,8 +20,9 @@ public:
                 if(x1 != x2 && y1 != y2) {
                     //let's now find the other two
                     if(map[x1].find(y2) != map[x1].end() && map[x2].find(y1) != map[x2].end()) {
-                        flag = 1;
                         ans = min(ans, abs(x1 - x2) * abs(y1 - y2));
+                        flag = 1;
+                        
                     }
                 }
             }
