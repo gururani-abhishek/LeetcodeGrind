@@ -1,39 +1,44 @@
 class Solution {
 public:
-    /*
-    time complexity: O(n! * n), n! unique permutations & looping through nums(size: n)
-    space complexity: except the ans, I'm taking a vector: O(n) plus an array: O(n)
-    auxiliary space: O(n) for n recursive calls 
-    */
     vector<vector<int>> ans;
     vector<vector<int>> permute(vector<int>& nums) {
-        int map[nums.size()];
-        for(int i=0; i<nums.size(); i++) map[i] = 0;                                            
-        vector<int> ans1;   
-        create(nums, ans1, map);
+        int n = 0;
+        create(nums, n);
         return ans;
     }
-private:
     
-    void create(vector<int>& nums, vector<int>& ans1, int map[]) {
-        if(ans1.size() == nums.size()) {
-            ans.push_back(ans1);
+private:
+    void create(vector<int>& nums, int n) {
+        if(n == nums.size()) {
+            ans.push_back(nums);
             return;
         }
         
-        for(int i=0; i<nums.size(); i++) {
-            if(!map[i]) {
-                ans1.push_back(nums[i]);
-                map[i] = 1;
-                create(nums, ans1, map);
-                map[i] = 0;
-                ans1.pop_back();
-            }
+        //swap
+        for(int i=n; i<nums.size(); i++) {
+            swap(nums[n], nums[i]);
+            create(nums, n+1);
+            swap(nums[n], nums[i]);
         }
-            
+        
     }
 };
 
-//mistake
-// map ->  array -> 0 -> mapped
-// map -> key -> value
+/*
+1 2 3, n = 0 
+1, 2, 3
+2, 1, 3
+3, 2, 1 
+
+1, 2, 3
+1, 3, 2
+
+2, 1, 3
+2, 3, 1
+
+3, 2, 1
+3, 1, 2
+
+
+
+*/
