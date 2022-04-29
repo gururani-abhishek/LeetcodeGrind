@@ -2,8 +2,8 @@ class Solution {
 public:
     vector<vector<int>> ans;
     vector<vector<int>> permute(vector<int>& nums) {
-        int n = 0;
-        create(nums, n);
+        int nn = 0;
+        create(nums, nn);
         return ans;
     }
     
