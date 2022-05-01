@@ -3,6 +3,7 @@ public:
     vector<vector<int>> ans;
     vector<vector<int>> permute(vector<int>& nums) {
         int nn = 0;
+        sort(nums.begin(), nums.end());
         create(nums, nn);
         return ans;
     }
@@ -39,6 +40,6 @@ private:
 3, 2, 1
 3, 1, 2
 
-
+1 1 2
 
 */
