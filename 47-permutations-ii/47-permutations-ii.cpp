@@ -1,27 +1,42 @@
 class Solution {
 public:
-    set<vector<int>> ans;
+    vector<vector<int>> ans;
     vector<vector<int>> permuteUnique(vector<int>& nums) {
         int n = 0;
-        create(nums,n);
-        
-        vector<vector<int>> fans;
-        for(auto u: ans) fans.push_back(u);
-        return fans;
+        sort(nums.begin(), nums.end());
+        create(nums, n);
+        return ans;
     }
     
 private:
-    void create(vector<int>& nums, int n) {
+    void create(vector<int> nums, int n) {
         if(n == nums.size()) {
-            ans.insert(nums);
+            ans.push_back(nums);
             return;
         }
         
         for(int i =n; i<nums.size(); i++) {
+            if(i != n && nums[i] == nums[n]) continue;
             swap(nums[i], nums[n]);
             create(nums, n+1);
-            swap(nums[i], nums[n]);
         }
     }
 };
 
+/*
+
+1, 1, 2
+
+0th position: 
+1 1 2
+1 2 1
+
+// 1 1 2
+// 1 2 1
+
+2 1 1
+// 2 1 1
+
+
+
+*/
