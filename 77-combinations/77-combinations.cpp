@@ -9,7 +9,7 @@ public:
     }
 
 private:
-    void create(int nums, int i, int k, vector<int> ans1) {
+    void create(int nums, int i, int k, vector<int>& ans1) {
        if(!k) {
            ans.push_back(ans1);
            return;
