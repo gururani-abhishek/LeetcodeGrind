@@ -17,17 +17,22 @@ private:
         string str = "";
         for(int i =point; i<s.size(); i++) {
             str.push_back(s[i]);
-            int start =0, end = str.size() -1, flag = 0;
-            while(start< end) {
-                if(str[start] != str[end]) {flag = 1; break;}
-                start++, end--;
-            }
-            if(flag) continue;
+            if(!checkPalindrome(str)) continue;
             
             ans1.push_back(str);
             create(s, ans1, i+ 1);
             ans1.pop_back();
         }
         
+    }
+    
+    bool checkPalindrome(string s) {
+        int i = 0, j = s.size() -1;
+        while(i < j) {
+            if(s[i] != s[j]) return false;
+            i++, j--;
+        }
+        
+        return true;
     }
 };
