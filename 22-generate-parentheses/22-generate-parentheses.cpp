@@ -2,26 +2,28 @@ class Solution {
 public:
     vector<string> ans;
     vector<string> generateParenthesis(int n) {
-        string op = "";
-        create(op, n, n);
+        string s = "";
+        create(s, n, n);
         return ans;
     }
-private: 
-    void create(string op, int open, int closed) {
-        if(open == 0 && closed ==0) {
-            ans.push_back(op);
+    
+private:
+    void create(string s, int open, int close) {
+        if(open == 0 && close == 0) {
+            ans.push_back(s);
             return;
         }
         
-        if(open > 0) {
-            string op1 = op;
-            op1.push_back('(');
-            create(op1, open -1, closed);
+        
+        if(open) {
+            s.push_back('(');
+            create(s, open -1, close);
+            s.pop_back();
         }
         
-        if(open < closed) {
-            op.push_back(')');
-            create(op, open, closed - 1);
+        if(open < close) {
+            s.push_back(')');
+            create(s, open, close -1);
         }
     }
 };
