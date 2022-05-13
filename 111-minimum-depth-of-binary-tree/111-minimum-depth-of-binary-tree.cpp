@@ -12,15 +12,25 @@
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-        return dfs(root);
-    }
-
-private: 
-    int dfs(TreeNode* root) {
         if(root == NULL) return 0;
-        int left = dfs(root -> left);
-        int right = dfs(root -> right);
+        queue<TreeNode*> q;
+        q.push(root);
+        int size = 0, mind = 1e9;
         
-        return 1 + (min(left, right)? min(left, right) : max(left, right)); 
+        while(!q.empty()) {
+            size++;
+            int s = q.size();
+            while(s--) {
+                TreeNode* node = q.front();
+                if(node -> left == NULL && node -> right == NULL) return size;
+                q.pop();
+                
+                if(node -> left != NULL) q.push(node -> left);
+                if(node -> right != NULL) q.push(node -> right);
+                
+            }
+        }
+        
+        return -1;
     }
 };
