@@ -12,45 +12,39 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == NULL || q == NULL) return p == q;
+
+        if(p == NULL || q == NULL) {
+            return p == q;
+        }
         
-        queue<TreeNode*> qP, qQ;
-        qP.push(p);
-        qQ.push(q);
         
-        while(!qP.empty() && !qQ.empty()) {
-            TreeNode* nodeP = qP.front();
-            TreeNode* nodeQ = qQ.front();
+        queue<TreeNode*> P, Q;
+        P.push(p);
+        Q.push(q);
+        
+        while(!P.empty() && !Q.empty()) {
+            TreeNode* nodeP = P.front();
+            TreeNode* nodeQ = Q.front();
+            P.pop();
+            Q.pop();
             
-            qP.pop();
-            qQ.pop();
-            
-            
-            //val should be same;
             if(nodeP -> val != nodeQ -> val) return false;
             
-            //both should be null together, otherwise put them in queue;
-//             if(nodeP -> left != NULL && nodeQ -> left != NULL) {
-//                 qP.push(nodeP -> left);
-//                 qQ.push(nodeQ -> left);
-//             } else if(nodeP -> left != NULL || nodeQ -> left != NULL) return false;
-            
-            if(nodeP -> left != NULL && nodeQ -> left == NULL || nodeP -> left == NULL && nodeQ -> left != NULL) return false;
-            else if(nodeP -> left != NULL && nodeQ -> left != NULL) {
-                qP.push(nodeP -> left);
-                qQ.push(nodeQ -> left);
+            if(nodeP -> left == NULL && nodeQ -> left != NULL || nodeP -> left != NULL && nodeQ -> left == NULL) {
+                return false;
+            } else if(nodeP -> left != NULL && nodeQ -> left != NULL) {
+                Q.push(nodeQ -> left);
+                P.push(nodeP -> left);
             }
             
-            
-            
-            //both should be null together, otherwise put them in queue;
-            if(nodeP -> right != NULL && nodeQ -> right != NULL) {
-                qP.push(nodeP -> right);
-                qQ.push(nodeQ -> right);
-            } else if(nodeP -> right != NULL || nodeQ -> right != NULL) return false;
-           
+            if(nodeP -> right == NULL && nodeQ -> right != NULL || nodeP -> right != NULL && nodeQ -> right == NULL) {
+                return false;
+            } else if(nodeP -> right != NULL && nodeQ -> right != NULL) {
+                Q.push(nodeQ -> right);
+                P.push(nodeP -> right);
+            }
         }
-    return true;
+        
+        return true;
     }
-    
 };
