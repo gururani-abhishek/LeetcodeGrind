@@ -11,22 +11,28 @@
  */
 class Solution {
 public:
-    int count, ans;
+    int ans, count;
     int kthSmallest(TreeNode* root, int k) {
         count = k;
-        inOrder(root);
+        inorder(root);
         return ans;
     }
-    
+
 private:
-    void inOrder(TreeNode* root) {
+    void inorder(TreeNode* root) {
         if(root == NULL) return;
         
-        inOrder(root -> left);
+        inorder(root -> left);
         if(!(--count)) {
             ans = root -> val;
             return;
-        }
-        inOrder(root -> right);
+        }   
+        inorder(root -> right);
     }
 };
+
+//   3
+//  / \    Left|root|Right ->> 1, 2, 3, 4
+// 1   4
+//  \
+//   2  
