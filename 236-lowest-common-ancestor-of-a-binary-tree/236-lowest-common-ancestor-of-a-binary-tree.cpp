@@ -10,20 +10,56 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(root == NULL || root == p || root == q) return root;
+        if(root == NULL || root -> val == p -> val || root -> val == q -> val) {
+            return root;
+        }
         
-        TreeNode* left = lowestCommonAncestor(root -> left, p, q);
-        TreeNode* right = lowestCommonAncestor(root -> right, p, q);
+        TreeNode* l = lowestCommonAncestor(root -> left, p, q);
+        TreeNode* r = lowestCommonAncestor(root -> right, p, q);
+
+        if(l == NULL) return r;
+        else if(r == NULL) return l;
         
-        //four probable cases:  
-        //1> left == NULL && right == NULL return NULL
-        //2> left != NULL && right == NULL return left
-        //3> left == NULL && right != NULL return right
-        //4> left != NULL && right != NULL return root
+    return root;
         
-        if(left == NULL) return right;
-        else if(right == NULL) return left;
-        else return root;
     }
-    
 };
+
+
+//l r returned
+//n nN -> nN(r);
+//n n -> n(l/r);
+//nN nN -> root
+//nN n -> nN(l);
+
+
+//         3
+//        /  \
+//       5    1
+//      / \  / \
+//     6  2  0  8
+//       / \
+//      7    4
+        
+            
+            
+            
+//             5 -> l = 6 , r = 2
+//             3 -> l = 5 , r = null
+            
+//             3 -> l = 5 , r = null
+//             5 
+            
+            
+            
+            
+            
+//             5
+//          NULL   2 returned -> 2 
+         
+//             1
+//          NULL    8 returned -> 8
+        
+//             3
+//         2 returned 8 returned -> root;
+        
