@@ -11,38 +11,29 @@
  */
 class Solution {
 public:
-    int ans = 0;
+    int ans;
     int pathSum(TreeNode* root, int targetSum) {
         if(root == NULL) return 0;
-        
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while(!q.empty()) {
-            TreeNode* node = q.front();
-            q.pop();
-            
-            dfs(node, (long long)targetSum);
-            if(node -> left != NULL) q.push(node -> left);
-            if(node -> right != NULL) q.push(node -> right);
-        }
-        
-        
+        dfs(root, targetSum);
         return ans; 
     }
-
 private: 
-    void dfs(TreeNode* node, long long targetSum) {
+    void dfs(TreeNode* root, int targetSum) {
+        if(root == NULL) return;
+        
+        dfs(root -> left, targetSum);
+        countPath(root, (long long)targetSum);
+        dfs(root -> right, targetSum);
+    }
+    
+    void countPath(TreeNode* node, long long targetSum) {
         if(node == NULL) return;
         
-        if(node -> val == targetSum) ans++;
+        if(targetSum - node -> val == 0) {
+            ans++;
+        }
         
-        dfs(node -> left, targetSum - node -> val);
-        dfs(node -> right, targetSum - node -> val);
+        countPath(node -> left, targetSum - node -> val);
+        countPath(node -> right, targetSum - node -> val);
     }
 };
-
-
-//treat every node as root 
-//tc : O(nsquared)
-//sc : constant, recursion stack space.
