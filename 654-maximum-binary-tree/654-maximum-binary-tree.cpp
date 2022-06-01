@@ -12,28 +12,24 @@
 class Solution {
 public:
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        return makeMyTree(nums, 0, nums.size() -1);
+        return create(nums, 0, nums.size() -1);
     }
-    
-    
 private: 
-    TreeNode* makeMyTree(vector<int> nums, int start, int end) {
-        if(start > end) {
-            return NULL;
-        }
+    TreeNode* create(vector<int> nums, int start, int end) {
+        if(start > end) return NULL;
         
-        int idx = 0, mx = -1;
+        int mx = -1, idx;
         for(int i=start; i<=end; i++) {
-            if(nums[i] > mx) {
-                idx = i;
+            if(mx < nums[i]) {
                 mx = nums[i];
+                idx = i;
             }
         }
         
-        TreeNode* node = new TreeNode(mx);
-        node -> left = makeMyTree(nums, start, idx -1);
-        node -> right = makeMyTree(nums, idx + 1, end);
+        TreeNode* root = new TreeNode(mx);
+        root -> left = create(nums, start, idx -1);
+        root -> right = create(nums, idx+1, end);
         
-        return node;
+    return root;
     }
 };
