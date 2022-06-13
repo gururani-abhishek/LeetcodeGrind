@@ -14,23 +14,22 @@ public:
     int widthOfBinaryTree(TreeNode* root) {
         if(root == NULL) return 0;
         queue<pair<TreeNode*, unsigned long long>> q;
-        q.push({root, 0});
-        
+        q.push({root, 1});
         unsigned long long maxWidth = 0;
         
         while(!q.empty()) {
             int size = q.size();
             unsigned long long first = q.front().second, last = q.back().second;
-            
             maxWidth = max(maxWidth, last - first + 1);
             while(size--) {
                 TreeNode* node = q.front().first;
-                unsigned long long hackSerial = q.front().second - 1;
+                unsigned long long dadSerial = q.front().second - 1;
                 q.pop();
                 
-                if(node -> left != NULL) q.push({node -> left, 2*hackSerial + 1});
-                if(node -> right != NULL) q.push({node -> right, 2*hackSerial + 2});
+                if(node -> left != NULL) q.push({node -> left, 2*dadSerial + 1});
+                if(node -> right != NULL) q.push({node -> right, 2*dadSerial + 2});
             }
+            
         }
         
         return maxWidth;
