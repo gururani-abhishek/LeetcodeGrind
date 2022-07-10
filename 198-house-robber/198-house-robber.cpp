@@ -1,19 +1,19 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        vector<int> dp(nums.size(), -1);
-        return findMaxRobbery(nums, nums.size() -1, dp);
+        int oneBefore = nums[0], twoBefore;
+        int n = nums.size();
+        for(int i=1; i<n; i++) {
+            
+            int robIt = nums[i];
+            if(i-2 >= 0) robIt += twoBefore;
+            int notRobIt = oneBefore;
+            
+            twoBefore = oneBefore;
+            oneBefore = max(robIt, notRobIt);
+        }
+        
+        return oneBefore;
     }
 
-private: 
-    int findMaxRobbery(vector<int>& nums, int n, vector<int>& dp) {
-        if(n == 0) return nums[0];
-        if(n < 0) return 0;
-        
-        if(dp[n] != -1) return dp[n];
-        int robIt = nums[n] + findMaxRobbery(nums, n-2, dp); 
-        int notRobIt = findMaxRobbery(nums, n-1, dp);
-        
-        return dp[n] = max(robIt, notRobIt);
-    }
 };
