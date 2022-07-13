@@ -4,7 +4,6 @@ public:
         
         int n = obstacleGrid.size(), m = obstacleGrid[0].size();
         vector<int> dp(m, 0);
-        dp[0] = (obstacleGrid[0][0] != 1);
         
         for(int row = 0; row < n; row++) {
             vector<int> cur(m, 0);
