@@ -2,30 +2,32 @@ class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         
-        vector<vector<int>> dp(triangle.size(), vector<int>(triangle.size(), 0));
-        dp[0][0] = triangle[0][0];
+        vector<int> prev(triangle.size(), 0);
         
         for(int row = 0; row < triangle.size(); row++) {
+            vector<int> curr(triangle.size(), 0);
+            
             for(int idx = 0; idx < triangle[row].size(); idx++) {
-                if(row == 0 && idx == 0) continue;
+                if(row == 0 && idx == 0) curr[0] = triangle[0][0];
                 else {
                     int up = triangle[row][idx], upBefore = triangle[row][idx];
                     
                     
-                    if(idx < triangle[row-1].size()) up += dp[row-1][idx];
+                    if(idx < triangle[row-1].size()) up += prev[idx];
                     else up = INT_MAX;
-                    if(idx > 0) upBefore += dp[row-1][idx-1];
+                    if(idx > 0) upBefore += prev[idx-1];
                     else upBefore = INT_MAX;
                     
-                    dp[row][idx] = min(up, upBefore);
+                    curr[idx] = min(up, upBefore);
                 }
                 
             }
+            prev = curr;
         }
     
         int ans = INT_MAX;
-        for(int i=0; i<triangle[triangle.size()-1].size(); i++) {
-            ans  = min(ans, dp[triangle.size()-1][i]);
+        for(int i=0; i<prev.size(); i++) {
+            ans = min(prev[i], ans);
         }
         
         return ans;
