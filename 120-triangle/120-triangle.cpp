@@ -9,7 +9,7 @@ public:
 private: 
     int minTB(vector<vector<int>>& triangle, int row, int idx, vector<vector<int>>& dp) {
         if(row == triangle.size() -1) return triangle[row][idx];
-        else if(idx > triangle[row].size()-1) return INT_MAX;
+        // else if(idx > triangle[row].size()-1) return INT_MAX;
         
         
         if(dp[row][idx] != -1) return dp[row][idx];
