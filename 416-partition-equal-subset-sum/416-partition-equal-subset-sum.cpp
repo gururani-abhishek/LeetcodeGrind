@@ -4,7 +4,7 @@ public:
         int sum = 0, n = nums.size();
         for(int i=0; i<n; i++) sum += nums[i];
         
-        if(sum %2 || n == 1) return false;
+        if(sum %2) return false;
         //now this problem is : "subset sum equals to sum/2" problem
         vector<vector<bool>> dp(n, vector<bool>(sum/2+1, 0));
         
@@ -16,7 +16,7 @@ public:
         if(nums[0] <= sum/2 + 1) dp[0][nums[0]] = true;
         
         for(int idx=1; idx<n; idx++) {
-            for(int target = 0; target <= sum/2; target++) {
+            for(int target = 1; target <= sum/2; target++) {
             bool leaveIt = false, takeIt = false;
             leaveIt = dp[idx-1][target]; 
         
@@ -27,22 +27,5 @@ public:
         }
         
         return dp[n-1][sum/2];
-    }
-    
-private: 
-    bool create(vector<int>& nums, int idx, int target, vector<vector<int>>& dp)  {
-        if(target == 0) return true;
-        if(idx == 0) {
-            return (nums[0] == target);
-        }
-        
-        if(dp[idx][target] !=  -1) return dp[idx][target];
-        
-        bool leaveIt = false, takeIt = false;
-        leaveIt = create(nums, idx-1, target, dp);
-        
-        if(nums[idx] <= target) takeIt = create(nums, idx-1, target-nums[idx], dp);
-        
-        return dp[idx][target] = (takeIt  || leaveIt);
     }
 };
