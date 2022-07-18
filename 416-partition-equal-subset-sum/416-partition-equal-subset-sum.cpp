@@ -1,23 +1,29 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        int sum = 0;
-        for(int i=0; i<nums.size(); i++) sum += nums[i];
-        vector<vector<int>> dp(nums.size(), vector<int>(sum+1, -1));
-        return create(nums, 0, 0, sum, dp);
+        int sum = 0, n = nums.size();
+        for(int i=0; i<n; i++) sum += nums[i];
+        
+        if(sum %2) return false;
+        //now this problem is : "subset sum equals to sum/2" problem
+        vector<vector<int>> dp(n, vector<int>(sum/2+1, -1));
+        return create(nums, n-1, sum/2, dp);
     }
     
 private: 
-    bool create(vector<int>& nums, int idx, int sum1, int sum, vector<vector<int>>& dp) {
-        if(sum1 == sum) return true;
-        if(idx > nums.size()-1) return false;
+    bool create(vector<int>& nums, int idx, int target, vector<vector<int>>& dp)  {
+        if(target == 0) return true;
+        if(idx == 0) {
+            return (nums[0] == target);
+        }
         
-        if(dp[idx][sum1] != -1) return dp[idx][sum1];
-        int takeIt = false, leaveIt = false;
-        leaveIt = create(nums, idx+1, sum1, sum, dp);
+        if(dp[idx][target] !=  -1) return dp[idx][target];
         
-        if(sum1 + nums[idx] <= sum) takeIt = create(nums, idx+1, sum1+nums[idx], sum -nums[idx], dp);
+        bool leaveIt = false, takeIt = false;
+        leaveIt = create(nums, idx-1, target, dp);
         
-        return dp[idx][sum1] = (takeIt || leaveIt);
+        if(nums[idx] <= target) takeIt = create(nums, idx-1, target-nums[idx], dp);
+        
+        return dp[idx][target] = (takeIt  || leaveIt);
     }
 };
