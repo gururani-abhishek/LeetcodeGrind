@@ -4,21 +4,22 @@ public:
         
         int n = coins.size();
         vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-        int ans = create(coins, n-1, amount, dp);
-        return ans == 1e9 ? -1 : ans;
-    }
-    
-private: 
-    int create(vector<int>& coins, int idx, int amount, vector<vector<int>>& dp) {
-        if(idx == 0) {
-            if(amount % coins[0] == 0) return (amount/coins[0]);
-            return 1e9;
+        
+        for(int am = 0; am <= amount; am++) {
+            if(am % coins[0] == 0) dp[0][am] = am/coins[0];
+            else dp[0][am] = 1e9;
         }
         
-        if(dp[idx][amount] != -1) return dp[idx][amount];
-        int leaveIt = create(coins, idx -1, amount, dp);
-        int takeIt = (coins[idx] <= amount) ? 1 + create(coins, idx, amount - coins[idx], dp) : 1e9;
+        for(int idx = 1; idx <n; idx++) {
+            for(int am = 0; am <= amount; am++) {
+                int leaveIt = dp[idx -1][am];
+                int takeIt = (coins[idx] <= am) ? 1 + dp[idx][am - coins[idx]] : 1e9;
         
-        return dp[idx][amount] = min(leaveIt, takeIt);
+                dp[idx][am] = min(leaveIt, takeIt);
+            }
+        }
+        
+        int ans = dp[n-1][amount];
+        return ans == 1e9 ? -1 : ans;
     }
 };
