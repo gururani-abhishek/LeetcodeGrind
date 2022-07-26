@@ -16,7 +16,7 @@ public:
 private: 
     long createM(vector<int>& nums, bool hasPicked, int idx) {
         if(idx == nums.size()) {
-            return (hasPicked ? 1 : INT_MIN);
+            return (hasPicked ? 1 : -1e9);
         }
         
         if(dpM[idx][hasPicked] != -1) return dpM[idx][hasPicked];
