@@ -3,8 +3,30 @@ public:
     int maxSubArray(vector<int>& nums) {
         bool hasPicked = false; //I've picked nothing yet.
         int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(2, -1)); //dp[idx][hasPicked];
-        return create(nums, hasPicked, 0, dp);
+        vector<vector<int>> dp(n + 1, vector<int>(2, 0)); //dp[idx][hasPicked];
+       
+        dp[nums.size()][1] = 0; 
+        dp[nums.size()][0] = -1e9;
+        
+        for(int idx = n-1; idx >= 0; idx--) {
+            for(int hasPicked = 0; hasPicked < 2; hasPicked++) {
+                if(hasPicked) {
+                    //now you'll have to pick, in order to keep the subarray contiguous
+                    int pickIt = nums[idx] + dp[idx+1][1];
+                    dp[idx][hasPicked] = max(pickIt, 0);
+                    continue;
+                    //0 because after picking, the sum can be get smaller too, due to -ve numbers.
+            }
+        
+            //nothing has yet been picked, so you can both either pick or not pick an element.
+            int pickIt = nums[idx] + dp[idx + 1][1];
+            int nPickIt = dp[idx + 1][0];
+            dp[idx][hasPicked] = max(pickIt, nPickIt);
+            
+            }
+        }
+        
+        return dp[0][0];
     }
     
 private: 
