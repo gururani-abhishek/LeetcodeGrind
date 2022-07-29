@@ -2,26 +2,32 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>> dp(n, vector<int>(2, -1));
-        return create(prices, 0, 0, dp);
+        vector<vector<int>> dp(n + 1, vector<int>(2, 0));
+        //base case;
+        dp[n][0] = 0;
+        dp[n][1] = 0;
+        
+        for(int idx = n-1; idx >= 0; idx--) {
+            for(int bought=0; bought<2; bought++) {
+                if(bought) {
+                    int sell = prices[idx] + dp[idx+1][0];
+                    int nsell = dp[idx + 1][bought];
+
+                    dp[idx][bought] = max(sell, nsell);
+                    continue;
+                }
+        
+        
+            int buy = -1*prices[idx] + dp[idx+1][1];
+            int nbuy = dp[idx+1][bought];
+            
+            dp[idx][bought] = max(buy, nbuy);
+                
+            }
+        }
+        
+        
+        return dp[0][0];
     }
     
-private: 
-    int create(vector<int>& prices, int bought, int idx, vector<vector<int>>& dp) {
-        if(idx == prices.size()) return 0;
-        
-        if(dp[idx][bought] != -1) return dp[idx][bought];
-            if(bought) {
-                int sell = prices[idx] + create(prices, false, idx+1, dp);
-                int nsell = create(prices, bought, idx + 1, dp);
-
-                return dp[idx][bought] = max(sell, nsell);
-            }
-        
-        
-            int buy = -1*prices[idx] + create(prices, true, idx+1, dp);
-            int nbuy = create(prices, bought, idx + 1, dp);
-            
-            return dp[idx][bought] = max(buy, nbuy);
-    }
 };
