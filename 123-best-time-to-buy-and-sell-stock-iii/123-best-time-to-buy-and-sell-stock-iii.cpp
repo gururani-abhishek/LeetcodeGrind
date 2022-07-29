@@ -2,8 +2,37 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>> dp(n, vector<int>(5, -1));
-        return create(prices, 0, 0, dp);
+        vector<vector<int>> dp(n+1, vector<int>(5, 0));
+        
+        //base case: 
+        for(int bought = 0; bought <5; bought++) 
+            dp[n][bought] = 0;
+        
+        for(int idx = n-1; idx >= 0; idx --) {
+            for(int bought = 0; bought < 5; bought++) {
+                    if(bought == 4) {
+                        dp[idx][bought] = dp[idx+1][4];
+                        continue;
+                    }
+                
+                    if(bought%2 == 0) {
+                        int buy = -1*prices[idx] + dp[idx + 1][bought + 1];
+                        int nbuy = dp[idx+1][bought];
+
+                        dp[idx][bought] = max(buy, nbuy);
+                        continue;
+                    
+                    } 
+        
+                    int sell = prices[idx] + dp[idx +1][bought+1];
+                    int nsell = dp[idx + 1][bought];
+
+                dp[idx][bought] = max(sell, nsell);
+            }
+        }
+        
+        
+        return dp[0][0];
     }
     
 private:
