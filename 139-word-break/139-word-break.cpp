@@ -6,45 +6,31 @@ public:
     //tc : o(n3), outerloop(add_idx -> worstcase o(n)), inner recursion(o(n) worstcase), findOperation(o(n));
     
     bool wordBreak(string s, vector<string>& wordDict) {
-        //I need to have a map that represents wordDict in order to search if a substring that I've created
-        //is a part of wordDict or not.
-        
         set<string> mapWordDict(wordDict.begin(), wordDict.end());
-        vector<int> dp(s.length(), -1);
-        return create(s, mapWordDict, 0, dp);
-        //0 represents the index, from which I'll be making my substrings.
-    }
-    
-private: 
-    bool create(string &s, set<string>& mapWordDict, int idx, vector<int>& dp) {
-        if(idx == s.length()) return true;
         
-        if(dp[idx] != -1) return dp[idx];
+        int n = s.length();
+        vector<int> dp(n+1, 0);
         
-        string sub = "";
+        dp[n] = 1;
+        
+        for(int idx = n-1; idx >=0; idx--) {
+             string sub = "";
 
-        for(int add_idx = idx; add_idx<s.length(); add_idx++) {
-            //create substrings, by adding new letter to the previous sub-string.
-            sub += s[add_idx];
-            
-            
-            //if it's found in the map, explore further.
-            //if nothing is being found in the map, just return a false when the entire string is 
-            //exhausted and not substring matches. 
-            
-            if(mapWordDict.find(sub) != mapWordDict.end() && create(s, mapWordDict, add_idx+1, dp))  {
-                
-                //create function call recurrence for the further leftover part.
-                //till add_idx, the subarray matched, hence I need to explore further
-                //from add_idx + 1;
-                return dp[idx] = true;
+            for(int add_idx = idx; add_idx < n; add_idx++) {
+                sub += s[add_idx];
+                if(mapWordDict.find(sub) != mapWordDict.end() && dp[add_idx+1])  {
+                dp[idx] = true;
+                break;
+                }
             }
         }
         
-        return dp[idx] = false;
+        
+        
+        return dp[0];
     }
-};
 
+};
 
 /*
 
