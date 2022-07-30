@@ -4,31 +4,38 @@ public:
         //there will be three states : buy, sell, cooldown.
         //there's no restriction on how many stocks you can buy.
         int n = prices.size();
-        vector<vector<int>> dp(n, vector<int>(3, -1));
-        return create(prices, 0, 0, dp);
-    }
-    
-private: 
-    int create(vector<int>& prices, int idx, int state, vector<vector<int>>& dp) {
-        if(idx == prices.size()) return 0;
+        vector<vector<int>> dp(n+1, vector<int>(3, -1));
         
-        if(dp[idx][state] != -1) return dp[idx][state];
-        if(state == 0) {
-            int buy = -1*prices[idx] + create(prices, idx +1, 1, dp);
-            int nbuy = create(prices, idx + 1, 0, dp);
-            
-            return dp[idx][state] = max(buy, nbuy);
+        for(int state = 0; state < 3; state++) {
+            dp[n][state] = 0;
         }
         
-        if(state == 1) {
-            int sell = prices[idx] + create(prices, idx + 1, 2, dp);
-            int nsell = create(prices, idx + 1, 1, dp);
-            
-            return dp[idx][state] = max(sell, nsell);
+        for(int idx = n-1; idx >= 0; idx--) {
+            for(int state = 0; state < 3; state++) {
+                if(state == 0) {
+                    int buy = -1*prices[idx] + dp[idx +1][1];
+                    int nbuy = dp[idx + 1][0];
+
+                    dp[idx][state] = max(buy, nbuy);
+                    continue;
+                }
+        
+                if(state == 1) {
+                    int sell = prices[idx] + dp[idx + 1][2];
+                    int nsell = dp[idx + 1][1];
+
+                    dp[idx][state] = max(sell, nsell);
+                    continue;
+                }
+
+                //state = 2, cooldown
+
+                dp[idx][state] = dp[idx + 1][0];
+            }
         }
         
-        //state = 2, cooldown
         
-        return dp[idx][state] = create(prices, idx + 1, 0, dp);
+        return dp[0][0];
     }
+
 };
