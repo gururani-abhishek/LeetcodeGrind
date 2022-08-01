@@ -1,24 +1,27 @@
 class Solution {
 public:
     int countSubstrings(string s) {
-        int res = 0, maxPaliLen = 0, n = s.length();
-
-        for(int idx = 0; idx < n; idx++) {
+        int size = s.length();
+        int res = 0;
+        for(int idx=0; idx<size; idx++) {
             
-            //for palin's like : aba
-            int l = idx, r = idx;
-            while(l >= 0 && r <= n-1 && s[l] == s[r]) {
+            //type : aba
+            int left = idx, right = idx;
+            while(left >= 0 && right <= size && s[left] == s[right]) {
                 res++;
-                l--, r++;
+                left--;
+                right++;
             }
             
-            //for plain's like : abba
-            l = idx, r = idx + 1;
-            while(l >= 0 && r <= n-1 && s[l] == s[r]) {
+            left = idx; 
+            right = idx + 1;
+            while(left >= 0 && right <= size && s[left] == s[right]) {
                 res++;
-                l--, r++;
+                left--;
+                right++;
             }
         }
+        
         
         return res;
     }
