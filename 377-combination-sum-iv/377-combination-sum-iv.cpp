@@ -19,21 +19,33 @@ public:
     //instead of computing them again and again.
     //tc: O(T*N), sc: O(T) + O(T), stack sapce + dp array
     
+    
+    
     int combinationSum4(vector<int>& nums, int target) {
-        vector<int> dp(target+1, -1);
-        return create(nums, target, dp);
+        vector<int> dp(target+1, 0);
+        dp[0] = 1;
+        
+        for(int targetdp = 1; targetdp <= target; targetdp++) {
+            long resForThisCall = 0;
+            for(auto integer : nums) 
+                resForThisCall += (integer <= targetdp ? dp[targetdp - integer] : 0);
+        
+        dp[targetdp] = resForThisCall;
+        }
+        
+        return dp[target];
     }
     
-private: 
-    int create(vector<int>& nums, int target, vector<int>& dp) {
-        if(target == 0) return 1;
+// private: 
+//     int create(vector<int>& nums, int target, vector<int>& dp) {
+//         if(target == 0) return 1;
         
-        if(dp[target] != -1) return dp[target];
-        int resForThisCall = 0;
-        for(auto integer : nums) 
-            resForThisCall += (integer <= target ? create(nums, target - integer, dp) : 0);
+//         if(dp[target] != -1) return dp[target];
+//         int resForThisCall = 0;
+//         for(auto integer : nums) 
+//             resForThisCall += (integer <= target ? create(nums, target - integer, dp) : 0);
         
-        return dp[target] = resForThisCall;
+//         return dp[target] = resForThisCall;
         
-    }
+//     }
 };
