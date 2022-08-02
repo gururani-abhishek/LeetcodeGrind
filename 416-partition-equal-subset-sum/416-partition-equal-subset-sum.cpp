@@ -1,33 +1,33 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        int sum = 0, n = nums.size();
-        for(int i=0; i<n; i++) sum += nums[i];
+        int tSum = 0;
+        for(int i=0; i<nums.size(); i++) tSum += nums[i];
         
-        if(sum %2) return false;
-        //now this problem is : "subset sum equals to sum/2" problem
-        vector<bool> prev(sum/2 + 1, false);
-        vector<bool> curr(sum/2 + 1, false);
+        if(tSum % 2 != 0 || nums.size() == 1) return false;
         
-        //define basecases: 
-        //1st bC: doesn't matter what idx is, if target == 0, return true;
-        for(int idx=0; idx<n; idx++) prev[0] = true;
+        //now I've got array whose total sum equals and even number
+        //and size of the given array is 2 or greater.
         
-        //2nd bC: when idx is equal to 0 and target == nums[0], return true;
-        if(nums[0] <= sum/2 + 1) prev[nums[0]] = true;
+        //6 -> 3, 3 || 8 -> 4, 4 || 36 -> 18, 18
         
-        for(int idx=1; idx<n; idx++) {
-            for(int target = 1; target <= sum/2; target++) {
-            bool leaveIt = false, takeIt = false;
-            leaveIt = prev[target]; 
+        //find a subset from the given array whose sum equals : tSum/2;
         
-            if(nums[idx] <= target) takeIt = prev[target-nums[idx]];
-        
-            curr[target] = (takeIt  || leaveIt);
-            }
-            prev = curr;
-        }
-        
-        return prev[sum/2];
+        //1, 5, 11, 5 -> tsum = 22 -> find a subset that sums up to 11
+        vector<vector<int>> dp(nums.size(), vector<int>(tSum/2 + 1, -1));
+        return create(nums, 0, tSum/2, dp);
     }
+
+private: 
+    bool create(vector<int>& nums, int idx, int target, vector<vector<int>>& dp) {
+        if(idx == nums.size()) return target == 0 ? 1 : 0;
+        
+        if(dp[idx][target] != -1) return dp[idx][target];
+        
+        int takeIt = (nums[idx] <= target ? create(nums, idx + 1, target - nums[idx], dp) : 0);
+        int notTakeIt = create(nums, idx + 1, target, dp);
+                      
+        return dp[idx][target] = (takeIt || notTakeIt);
+    }
+    
 };
