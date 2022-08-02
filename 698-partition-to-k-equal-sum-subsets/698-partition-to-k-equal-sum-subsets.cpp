@@ -1,28 +1,32 @@
 class Solution {
-private:    
-    bool solve(int i,vector<int>&nums,int k,int sum,int req_sum,vector<bool>&vis){
-        if(k == 1) return true;
-        if(i == nums.size()) return false;
-        if(sum == req_sum) return solve(0,nums,k-1,0,req_sum,vis);
-        
-        bool op1 = false;
-        
-        if(!vis[i] and sum + nums[i] <= req_sum){
-            vis[i] = true;
-            if(solve(i+1,nums,k,sum + nums[i],req_sum,vis)) return true;
-            vis[i] = false;
-        }
-        
-        return solve(i+1,nums,k,sum,req_sum,vis);            
-    }
 public:
     bool canPartitionKSubsets(vector<int>& nums, int k) {
-        int n = nums.size();
-        int sum = accumulate(nums.begin(),nums.end(),0);
-        if(n < k or sum % k != 0) return false;
-        int req_sum = sum/k;
-        sort(nums.begin(),nums.end(),greater<int>());
-        vector<bool> vis(nums.size());
-        return solve(0,nums,k,0,req_sum,vis);
+        sort(nums.begin(), nums.end(), greater<int>());
+        int sum = 0;
+        for(auto u: nums) sum += u;
+        
+        if(sum % k != 0) return false;
+        vector<int> visited(nums.size(), 0);
+        return create(nums, visited, 0, 0, sum/k, k);
+    }
+    
+private:
+    bool create(vector<int>& nums, vector<int>& visited, int idx, int sum, int target, int k) {
+        if(k == 1) return 1; //if k is 4 and 3 subsets are already found, fourth is already found.
+        if(idx == nums.size()) return 0;
+        if(sum == target) {
+            return create(nums, visited, 0, 0, target, k-1);
+        }
+    
+        for(int i=idx; i<nums.size(); i++) {
+            if(!visited[i] && nums[i] + sum <= target) {
+                visited[i] = 1;
+                if(create(nums, visited, i+1, sum + nums[i], target, k)) return 1;
+                visited[i] = 0;
+            }
+        }
+        
+        return false;
+        
     }
 };
