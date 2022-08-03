@@ -1,44 +1,24 @@
 class Solution {
 public:
-    //tc of recursion : exponential(O(N^N))
-    //space : O(N)
-    
-    //tc of memoization : O(N*N)
-    //space : O(N*N) + O(N) <dp array plus stack space>
-    
-    //tc of DP(tabulation) : O(N*N);
-    //space : O(N) <dp array>
-    
     bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n, -1);
-        dp[n-1] = 1;
-        
-        for(int idx = n-2; idx >= 0; idx--) {
-            if(nums[idx] == 0) {
-                dp[idx] = false;
-                continue;   
-            }
+        //it shows at max what index can I reach.
+        //initially I can only reach index 0, hence reach = 0
+        int reach = 0; 
+    
+        for(int idx = 0; idx < nums.size(); idx++) {
+            //at every index I'll check if my reach was atleast able to 
+            //reach that particular index.
             
-            int flag = 0;
-            int reach = idx + nums[idx];
-            for(int jump=idx + 1; jump <= reach; jump++) {
-                if(jump < nums.size() && dp[jump]) {
-                    dp[idx] = true;
-                    flag = 1;  
-                    break;
-                }
-            }
+            //reach >= idx -> great, carry on. Otherwise, 
+            if(reach < idx) return false;
             
-            if(flag == 1) {
-                continue;
-            }
-            dp[idx] = false;
+            //now as you can reach this index, it's time to update your reach
+            //as at every index, you're getting a new jump length.
+            reach = max(reach, idx + nums[idx]);
         }
         
+        //this means that you reached till the end of the array, wohooo!! 
+        return true;
         
-        
-        return dp[0];
     }
-
 };
