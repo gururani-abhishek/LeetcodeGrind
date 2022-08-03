@@ -12,7 +12,6 @@ public:
 private: 
     bool create(vector<int>& matchsticks, vector<int>& visited, int idx, int sum, int target, int noOfSides) {
         if(noOfSides == 1) return true;
-        if(idx == matchsticks.size()) return false;
         
         if(sum == target) return create(matchsticks, visited, 0, 0, target, noOfSides - 1);
         
