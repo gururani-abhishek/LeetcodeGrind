@@ -12,18 +12,29 @@ public:
 private: 
     bool create(vector<int>& matchsticks, vector<int>& visited, int idx, int sum, int target, int noOfSides) {
         if(noOfSides == 1) return true;
-        
-        if(sum == target) return create(matchsticks, visited, 0, 0, target, noOfSides - 1);
-        
-        for(int i = idx; i < matchsticks.size(); i++) {
-            
-            if(!visited[i] && matchsticks[i] + sum <= target) {
-                visited[i] = 1;
-                if(create(matchsticks, visited, i + 1, sum + matchsticks[i], target, noOfSides)) return true;
-                visited[i] = 0;
+        if(idx == matchsticks.size()) {
+            if(sum == target) {
+                return create(matchsticks, visited, 0, 0, target, noOfSides - 1);
             }
+            return false;
         }
         
-        return false;
+         
+//         for(int i = idx; i < matchsticks.size(); i++) {
+            
+//             if(!visited[i] && matchsticks[i] + sum <= target) {
+//                 visited[i] = 1;
+//                 if(create(matchsticks, visited, i + 1, sum + matchsticks[i], target, noOfSides)) return true;
+//                 visited[i] = 0;
+//             }
+//         }
+        
+        if(!visited[idx] && matchsticks[idx] + sum <= target) {
+            visited[idx] = 1;
+            if(create(matchsticks, visited, idx + 1, sum + matchsticks[idx], target, noOfSides)) return true;
+            visited[idx] = 0;
+        }
+        
+        return create(matchsticks, visited, idx + 1, sum, target, noOfSides);
     }
 };
