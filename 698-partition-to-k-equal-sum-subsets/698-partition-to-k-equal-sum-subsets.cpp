@@ -13,20 +13,19 @@ public:
 private:
     bool create(vector<int>& nums, vector<int>& visited, int idx, int sum, int target, int k) {
         if(k == 1) return 1; //if k is 4 and 3 subsets are already found, fourth is already found.
-        if(idx == nums.size()) return 0;
-        if(sum == target) {
-            return create(nums, visited, 0, 0, target, k-1);
-        }
-    
-        for(int i=idx; i<nums.size(); i++) {
-            if(!visited[i] && nums[i] + sum <= target) {
-                visited[i] = 1;
-                if(create(nums, visited, i+1, sum + nums[i], target, k)) return 1;
-                visited[i] = 0;
+        if(idx == nums.size()) return false;
+        
+            if(sum == target) {
+                return create(nums, visited, 0, 0, target, k-1);
             }
+    
+        if(!visited[idx] && nums[idx] + sum <= target) {
+            visited[idx] = 1;
+            if(create(nums, visited, idx+1, sum + nums[idx], target, k)) return true;
+            visited[idx] = 0;
         }
         
-        return false;
+        return create(nums, visited, idx +1, sum, target, k);
         
     }
 };
