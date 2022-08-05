@@ -1,25 +1,25 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        
         int n = coins.size();
         vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
+        int res = create(coins, 0, amount, dp);
+        return (res == 1e9 ? -1 : res);
+    
+    }
+    
+private: 
+    int create(vector<int>& coins, int idx, int am, vector<vector<int>>& dp) {
         
-        for(int am = 0; am <= amount; am++) {
-            if(am % coins[0] == 0) dp[0][am] = am/coins[0];
-            else dp[0][am] = 1e9;
+        if(idx == coins.size()) {
+            return am == 0 ? 0 : 1e9;
         }
         
-        for(int idx = 1; idx <n; idx++) {
-            for(int am = 0; am <= amount; am++) {
-                int leaveIt = dp[idx -1][am];
-                int takeIt = (coins[idx] <= am) ? 1 + dp[idx][am - coins[idx]] : 1e9;
+        if(dp[idx][am] != -1) return dp[idx][am];
         
-                dp[idx][am] = min(leaveIt, takeIt);
-            }
-        }
+        int take = (coins[idx] <= am ? 1 + create(coins, idx, am - coins[idx], dp) : 1e9);
+        int ntake = create(coins, idx + 1, am, dp);
         
-        int ans = dp[n-1][amount];
-        return ans == 1e9 ? -1 : ans;
+        return dp[idx][am] = min(take, ntake);
     }
 };
