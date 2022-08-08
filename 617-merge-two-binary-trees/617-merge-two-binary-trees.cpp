@@ -11,17 +11,44 @@
  */
 class Solution {
 public:
-    //creating an entirely new tree.
+    //by reference pass krne ka mtlb hai "wahi pass krna" and 
+    //by value pass krne ka mtlb hai "uska jaisa pass krna"
+    //uska jaisa, uske jaisa hoga, no doubt, but wo nahi hoga.
+    
     TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
-       
-        if(root1 == NULL) return root2;
-        if(root2 == NULL) return root1;
+        //I'm creating an entirely new tree, whose root node is being pointed by
+        // TreeNode type pointer : "newTreeRootNode"
+        TreeNode* newTreeRootNode = nullptr; // or TreeNode* newTreeRootNode(nullptr)
         
-        root1 -> val += root2 -> val;
+        create(root1, root2, newTreeRootNode);  //function to create a new merged tree.
         
-        root1 -> left = mergeTrees(root1 -> left, root2 -> left);
-        root1 -> right = mergeTrees(root1 -> right, root2 -> right);        
-        return root1;
+        return newTreeRootNode;
+    }
+    
+private: 
+    
+    void create(TreeNode* r1, TreeNode*  r2, TreeNode* & root) {
+        if(!r1 && !r2) return;
+        if(r1 && !r2) {
+            //great, create a new node, where val = r1 -> val and left and right will be nullptr;
+            TreeNode* node = new TreeNode(r1 -> val);
+            root = node;
+            
+            create(r1 -> left, r2, root -> left);
+            create(r1 -> right, r2, root -> right);
+        } else if(!r1 && r2) {
+            TreeNode* node = new TreeNode(r2 -> val);
+            root = node;
+            
+            create(r1, r2 -> left, root -> left);
+            create(r1,  r2 -> right, root -> right);
+        } else {
+            TreeNode* node = new TreeNode(r1 -> val + r2 -> val);
+            root = node;
+            
+            create(r1 -> left, r2 -> left, root -> left);
+            create(r1 -> right, r2 -> right, root -> right);
+        }
+        
     }
 };
-
