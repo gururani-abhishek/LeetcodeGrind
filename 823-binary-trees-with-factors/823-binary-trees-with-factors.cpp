@@ -1,11 +1,12 @@
 class Solution {
 public:
     int mod = 1e9 + 7;
-    unordered_set<int> toFind;
     int numFactoredBinaryTrees(vector<int>& arr) {
         
         sort(arr.begin(), arr.end());
-        toFind.insert(arr.begin(), arr.end());
+        
+        unordered_set<int> toFind{arr.begin(), arr.end()};
+        // toFind.insert(arr.begin(), arr.end());
         
         int n = arr.size();
         unordered_map<int, long long> dp;
@@ -13,7 +14,7 @@ public:
         
         long long res = 0;
         for(auto root : arr) {
-            res += create(arr, root, dp); 
+            res += create(arr, root, dp, toFind); 
             res %= mod;
         }
         
@@ -21,7 +22,7 @@ public:
     }
     
 private: 
-    long long create(vector<int>& arr, int root, unordered_map<int, long long> &dp) {
+    long long create(vector<int>& arr, int root, unordered_map<int, long long> &dp, unordered_set<int> &toFind) {
         
         if(dp.count(root)) return dp[root];
         long long count = 1;
@@ -30,7 +31,7 @@ private:
             if(root % subRoot) continue;
             
             if(toFind.count(root / subRoot)) {
-                count += create(arr, subRoot, dp) * create(arr, root/subRoot, dp);
+                count += create(arr, subRoot, dp, toFind) * create(arr, root/subRoot, dp, toFind);
                 count %= mod;
             }
         }
