@@ -1,20 +1,26 @@
 class Solution {
 public:
-    // tc : O(n)
+    // tc : O(n) //scanning string just once
     // sc : O(n)
     int firstUniqChar(string s) {
-        unordered_map<char, int> mp;
-        //mapping characters of the string to their frequencies
+        unordered_map<char, pair<int, int>> mp;
+        //mp[char] = {freq, idx};
+        
+        //scanning string, and mapping words, with freq and their idx
         for(int idx = 0; idx < s.length(); idx++) {
-            mp[s[idx]]++;
+            mp[s[idx]].first++;
+            mp[s[idx]].second = idx;
         }
         
-        //traversing the array and returning the first element(idx),
-        //which has a frequency 1
-        for(int idx = 0; idx < s.length(); idx++) {
-            if(mp[s[idx]] == 1) return idx;
+        //scanning hashMap, ans returning the element(idx) with min Idx, whose 
+        //freq is 1,  min Idx Because we have to return the <first unique char>
+        int ans = INT_MAX;
+        for(auto mappedValues : mp) {
+            if(mappedValues.second.first == 1) {
+                ans = min(ans, mappedValues.second.second);
+            }
         }
-        
-        return -1;
+                
+        return ans == INT_MAX ? -1 : ans;
     }
 };
