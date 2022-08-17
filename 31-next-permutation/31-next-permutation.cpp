@@ -14,7 +14,8 @@ public:
         //if the vector is last dict perm(i.e. descending order sorted) then you have to return 
         //vector sorted in ascending order, or reverse of the given vector
         if(idx1 == INT_MAX) {
-            reverseSeg(nums, 0);
+            //reverseSeg(nums, 0);
+            reverse(nums.begin(), nums.end());
             return;
         }
         
@@ -29,8 +30,8 @@ public:
         swap(nums[idx1], nums[idx2]); //swap step1 and step2 elements
         
         //reverse segement that's to the right of idx1
-        reverseSeg(nums, idx1 + 1);        
-        
+        //reverseSeg(nums, idx1 + 1);        
+        reverse(nums.begin() + idx1 + 1,  nums.end());
     }
     
 private: 
